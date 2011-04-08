@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.sase"
+      android:versionCode="1"
+      android:versionName="1.0">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+
+	<uses-feature android:name="android.hardware.nfc" android:required="true" />
+	
+    <application android:icon="@drawable/icon" 
+    			 android:label="@string/app_name">
+        <service android:label="MonitorService" android:name="MonitorService"
+        android:process=":background">
+			<intent-filter>
+				<action android:name="com.sase.MonitorService" />
+			</intent-filter>
+		</service>
+        <activity android:name="MonitorActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+			    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+			    <category android:name="android.intent.category.DEFAULT"/>
+			    <data android:mimeType="text/plain" />
+			</intent-filter>
+        </activity>
+        <receiver android:name="ServiceController" android:enabled="true">
+            <intent-filter>
+                <action android:name="com.sase.SERVICE_START"></action>
+                <action android:name="com.sase.SERVICE_KILL"></action>
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>
